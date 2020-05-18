@@ -17,7 +17,7 @@ nfi_sf = st_read("C:/MyTemp/2020_FI_protectedAreas/output.gdb",
                  layer = "NFI_protectStatus",
                  fid_column_name = "FID")
 
-
+coord.nfi <- st_coordinates(nfi_sf)
 head(nfi_sf)
 
 # Convert to data.frame
