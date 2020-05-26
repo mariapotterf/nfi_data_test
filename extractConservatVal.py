@@ -11,7 +11,7 @@ path = "C:/MyTemp/2020_FI_protectedAreas"
 outWD = os.path.join(path, "output")
 
 # set working environment
-arcpy.env.workspace = os.path.join(path, "OneDrive_1_5-22-2020/NFI_by_province")
+arcpy.env.workspace = os.path.join(path, "input")
 arcpy.env.overwriteOutput = True
 
 # read input file of protected areas

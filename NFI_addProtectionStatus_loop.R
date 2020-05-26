@@ -50,14 +50,17 @@ lapply(fcs.ls, head)
 reclassProtected <- function(nfi_sf, ...) {
   
   
- # nfi_sf <- fcs.ls[[5]]
+  #nfi_sf <- fcs.ls[[5]]
   
   # Keep coordinates
-  coord.nfi <- data.frame(cbind(nfi_sf$FID,
-                                st_coordinates(nfi_sf)), 
+  centroid <- st_centroid(nfi_sf)
+  
+  coord.nfi <- data.frame(cbind(centroid$standid,
+                               # nfi_sf$FID,
+                                st_coordinates(centroid)), 
                           stringsAsFactors = FALSE)
   # Assign names
-  names(coord.nfi) <- c("FID", "X", "Y")
+  names(coord.nfi) <- c("standid", "X", "Y") # "FID",
   
   
   # Convert to data.frame
@@ -70,7 +73,8 @@ reclassProtected <- function(nfi_sf, ...) {
     mutate(landscapeProt = ifelse(is.na(Luokka), "0", "1")) %>% # Landscape
     mutate(statutoryProt = ifelse(is.na(TyyppiLyhe), "0", "1")) %>% 
     mutate(IUCNcat = ifelse((is.na(IUCNKatego) | IUCNKatego == " " ), "0", as.character(IUCNKatego))) %>% 
-    select(FID,
+    select(standid,
+          # FID,
            Luokka, 
            TyyppiLyhe, 
            IUCNKatego,
@@ -81,7 +85,7 @@ reclassProtected <- function(nfi_sf, ...) {
                                    statutoryProt == 0 & landscapeProt != 0 ~ "landscape",
                                    TRUE ~ "commercial")
     ) %>% 
-    left_join(coord.nfi, by = "FID")
+    left_join(coord.nfi, by = "standid")
   
   return(df)
   
@@ -92,7 +96,7 @@ reclassProtected <- function(nfi_sf, ...) {
 # hget the outputs as 
 rcl.ls<- lapply(fcs.ls, reclassProtected)
 
-#lapply(rcl.ls, function(df) unique(df$protect_level)) 
+lapply(rcl.ls, function(df) unique(df$protection)) 
 
 # Double control, export at shp and csv
 # check shp in Arcgis 
