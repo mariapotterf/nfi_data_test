@@ -11,7 +11,7 @@ path = "C:/MyTemp/2020_FI_protectedAreas"
 outWD = os.path.join(path, "output")
 
 # set working environment
-arcpy.env.workspace = os.path.join(path, "input")
+arcpy.env.workspace = os.path.join(path, "input/output_all_Lappi_FINAL_2020-02-13")
 arcpy.env.overwriteOutput = True
 
 # read input file of protected areas
@@ -37,4 +37,7 @@ for fc in fcs:
                                "KEEP_ALL",
                                "",
                                "INTERSECT")
+
+
+print "completed"
     
